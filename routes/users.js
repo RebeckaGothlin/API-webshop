@@ -14,20 +14,6 @@ router.get('/', function(req, res, next) {
   })
 });
 
-router.get('/:id', function(req, res, next) {
-  const userId = req.params.id;
-  req.app.locals.db.collection('users').findOne({ _id: userId }, { projection: { password: 0}}).toArray()
-  .then(user => {
-    if (!user) {
-      res.status(404).json({error: 'Användaren kan inte hittas'});
-      return;
-    }
-    res.json(user);
-  })
-  .catch(error => {
-    console.error(error);
-    res.status(500).json({error: 'Internal Server Error'});
-  })
-});
+
 
 module.exports = router;
