@@ -32,5 +32,19 @@ router.get('/:id', (req,res) => {
         })
 })
 
+//Skapa produkt
+router.post('/add', (req, res) => {
+    const product = req.body;
+
+    req.app.locals.db.collection('products').insertOne(product)
+    .then(result => {
+        res.status(200).json(result)
+    })
+    .catch(error => {
+        console.error(error);
+        res.status(500).json({error: 'Could not create new product'})
+    })
+})
+
 
 module.exports = router;
