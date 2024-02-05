@@ -14,6 +14,19 @@ router.get('/', function(req, res, next) {
   })
 });
 
+// Skapa user 
+router.post('/add', (req, res) => {
+  const user = req.body;
+
+  req.app.locals.db.collection('users').insertOne(user)
+  .then(result => {
+    res.status(200).json(result)
+  })
+  .catch(err => {
+    console.error(err);
+    res.status(500).json({err: 'Could not create new user'})
+  })
+})
 
 
 module.exports = router;
