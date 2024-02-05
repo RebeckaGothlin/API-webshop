@@ -1,5 +1,6 @@
 var express = require('express');
 const { ObjectId } = require('mongodb');
+const bcrypt = require('bcrypt');
 var router = express.Router();
 
 /* GET users listing. */
@@ -44,8 +45,31 @@ router.post('/add', (req, res) => {
   })
   .catch(err => {
     console.error(err);
-    res.status(500).json({err: 'Could not create new user'})
+    res.status(500).json({ err: 'Could not create new user'})
   })
+})
+
+// Logga in user
+router.post('/login', async (req, res) => {
+  const { email, password } = req.body;
+
+  try {
+    const user = await req.app.locals.db.collection('users').findOne({ email })
+
+    if (!user) {
+      res.status(404).json({ error: 'Användaren kan inte hittas'})
+      return;
+    }
+
+    if (user.password === password) {
+      res.status(200).json({ success: true, message: 'Inloggning lyckades'})
+    } else {
+      res.status(401).json({ error: 'Fel lösenord'})
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal Server Error'})
+  }
 })
 
 
