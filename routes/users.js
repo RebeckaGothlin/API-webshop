@@ -16,7 +16,7 @@ router.get('/', function(req, res, next) {
   })
 });
 
-
+// Hämta specifik user
 router.post('/', async (req, res) => {
   const userId = req.body.id;
   try {
