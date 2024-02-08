@@ -6,7 +6,6 @@ var router = express.Router();
 router.get('/', function(req, res, next) {
     req.app.locals.db.collection('products').find().toArray()
     .then(results => {
-        console.log(results);
         res.status(200).json(results);
     })
     .catch(error => {
