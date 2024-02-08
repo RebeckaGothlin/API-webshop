@@ -25,8 +25,6 @@ router.post('/add', async (req, res) => {
 
     const existingUser = await req.app.locals.db.collection('users').findOne({ _id: userId });
 
-    console.log('Hittad användare:', existingUser);
-
     if (!existingUser) {
         res.status(404).json({ error: `Användaren med id ${user} kunde inte hittas` });
         return;

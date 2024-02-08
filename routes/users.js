@@ -1,13 +1,11 @@
 var express = require('express');
 const { ObjectId } = require('mongodb');
-const bcrypt = require('bcrypt');
 var router = express.Router();
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
   req.app.locals.db.collection('users').find({}, { projection: { password: 0}}).toArray()
   .then(results => {
-    console.log(results);
     res.json(results);
   })
   .catch(error => {
